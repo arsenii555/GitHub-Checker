@@ -1,7 +1,7 @@
 """Main TG Bot module."""
 from telethon import TelegramClient, events
 from settings import TGBotSettings
-from handlers import start_cmd_handler
+from handlers import start_cmd_handler, help_cmd_handler
 
 settings = TGBotSettings()
 
@@ -10,6 +10,11 @@ client = TelegramClient("bot_session", settings.api_id, settings.api_hash).start
 client.add_event_handler(
     start_cmd_handler,
     events.NewMessage(pattern="/start"),
+)
+
+client.add_event_handler(
+    help_cmd_handler,
+    events.NewMessage(pattern="/help"),
 )
 
 client.run_until_disconnected()
