@@ -7,6 +7,7 @@ name = "pypi"
 telethon = "*"
 fastapi = "*"
 requests = "*"
+pydantic-settings = "*"
 
 [dev-packages]
 flake8 = "*"
