@@ -8,6 +8,8 @@ telethon = "*"
 fastapi = "*"
 requests = "*"
 pydantic-settings = "*"
+uvicorn = "*"
+aiohttp = "*"
 
 [dev-packages]
 flake8 = "*"
