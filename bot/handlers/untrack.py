@@ -10,11 +10,15 @@ async def untrack_cmd_handler(http_client: HTTPClient, event: NewMessage.Event, 
     msg_text = event.message.text
     match msg_text.split():
         case ["/untrack", link]:
-            success = await http_client.untrack_link(user_id=user_id, link=link)
-            if success:
-                resp_msg = f"Ссылка\n{link}\nбольше не отслеживается"
+            links = await http_client.list_links(user_id=user_id)
+            if link in links:
+                success = await http_client.untrack_link(user_id=user_id, link=link)
+                if success:
+                    resp_msg = f"Ссылка\n{link}\nбольше не отслеживается"
+                else:
+                    resp_msg = "Произошла ошибка при удалении ссылки ❌"
             else:
-                resp_msg = "Произошла ошибка при удалении ссылки ❌"
+                resp_msg = "❗️Данная ссылка не отслеживалась❗️"
         case _:
             resp_msg = "Отправьте сообщение вида:\n/untrack <link>"
     await event.client.send_message(
