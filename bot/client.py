@@ -31,3 +31,9 @@ class HTTPClient:
         payload = {"url": link, "user_id": user_id}
         response = await self._request("POST", "/track", json=payload)
         return response is not None and response.get("success", False)
+
+    async def untrack_link(self, user_id: int, link: str) -> bool:
+        """Send untrack link request."""
+        payload = {"url": link, "user_id": user_id}
+        response = await self._request("POST", "/untrack", json=payload)
+        return response is not None and response.get("success", False)

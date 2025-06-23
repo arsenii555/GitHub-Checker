@@ -1,6 +1,6 @@
 """Track handler."""
 from telethon.events import NewMessage
-from bot.client import HTTPClient
+from ..client import HTTPClient
 
 
 async def track_cmd_handler(http_client: HTTPClient, event: NewMessage.Event, ) -> None:

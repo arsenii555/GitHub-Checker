@@ -2,9 +2,9 @@
 import asyncio
 
 from telethon import TelegramClient, events
-from settings import TGBotSettings
-from handlers import start_cmd_handler, help_cmd_handler, list_cmd_handler, track_cmd_handler, untrack_cmd_handler
-from client import HTTPClient
+from .settings import TGBotSettings
+from .handlers import start_cmd_handler, help_cmd_handler, list_cmd_handler, track_cmd_handler, untrack_cmd_handler
+from .client import HTTPClient
 from functools import partial
 
 
@@ -47,6 +47,7 @@ async def main():
 
     await bot.run_until_disconnected()
     await http_client.close()
+
 
 if __name__ == '__main__':
     asyncio.run(main())
