@@ -1,4 +1,6 @@
 """HTTP client."""
+from typing import List
+
 import aiohttp
 
 
@@ -37,3 +39,9 @@ class HTTPClient:
         payload = {"url": link, "user_id": user_id}
         response = await self._request("POST", "/untrack", json=payload)
         return response is not None and response.get("success", False)
+
+    async def list_links(self, user_id: int) -> List[str]:
+        """Send list links request."""
+        payload = {"user_id": user_id}
+        response = await self._request("GET", "/list", json=payload)
+        return response.get("links", []) if response else []
