@@ -1,6 +1,6 @@
 """Scrapper main module."""
 from fastapi import FastAPI
-from .models import Link
+from .models import Link, User
 from collections import defaultdict
 
 
@@ -24,3 +24,11 @@ async def untrack_link(link: Link):
     link = link.url
     users_links[user].discard(link)
     return {"message": "link removed", "success": True}
+
+
+@app.get("/list")
+async def list_links(user: User):
+    """List links endpoint."""
+    user_id = user.user_id
+    links = list(users_links[user_id])
+    return {"links": links}
