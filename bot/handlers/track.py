@@ -10,11 +10,15 @@ async def track_cmd_handler(http_client: HTTPClient, event: NewMessage.Event, ) 
     msg_text = event.message.text
     match msg_text.split():
         case ["/track", link]:
-            success = await http_client.track_link(user_id=user_id, link=link)
-            if success:
-                resp_msg = f"Ссылка\n{link}\nуспешно добавлена для отслеживания ✅"
+            links = await http_client.list_links(user_id=user_id)
+            if link not in links:
+                success = await http_client.track_link(user_id=user_id, link=link)
+                if success:
+                    resp_msg = f"Ссылка\n{link}\nуспешно добавлена для отслеживания ✅"
+                else:
+                    resp_msg = "Произошла ошибка при добавлении ссылки ❌"
             else:
-                resp_msg = "Произошла ошибка при добавлении ссылки ❌"
+                resp_msg = "👀Данная ссылка уже отслеживается 👀"
         case _:
             resp_msg = "Отправьте сообщение вида:\n/track <link>"
     await event.client.send_message(
