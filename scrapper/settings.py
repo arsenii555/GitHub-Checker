@@ -4,22 +4,20 @@ from pathlib import Path
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-__all__ = ("TGBotSettings",)
+__all__ = ("ScrapperSettings",)
 
 
-class TGBotSettings(BaseSettings):
-    """TGBot Settings."""
+class ScrapperSettings(BaseSettings):
+    """Scrapper settings."""
 
-    api_id: int = Field(...)
-    api_hash: str = Field(...)
-    token: str = Field(...)
     bot_url: str = Field(...)
     scrapper_url: str = Field(...)
+    github_api_key: str = Field(...)
 
     model_config: typing.ClassVar[SettingsConfigDict] = SettingsConfigDict(
         extra="ignore",
         frozen=True,
         case_sensitive=False,
         env_file=Path(__file__).parent.parent / ".env",
-        env_prefix="BOT_",
+        env_prefix="SCRAPPER_",
     )
