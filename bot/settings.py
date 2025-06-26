@@ -13,6 +13,7 @@ class TGBotSettings(BaseSettings):
     api_id: int = Field(...)
     api_hash: str = Field(...)
     token: str = Field(...)
+    scrapper_url: str = Field(...)
 
     model_config: typing.ClassVar[SettingsConfigDict] = SettingsConfigDict(
         extra="ignore",
