@@ -20,6 +20,8 @@ pytest-asyncio = "*"
 pytest-mock = "*"
 sphinx = "*"
 babel = "*"
+build = "*"
+poetry = "*"
 
 [requires]
 python_version = "3.13"
