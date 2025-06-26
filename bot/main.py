@@ -2,11 +2,16 @@
 import asyncio
 from telethon import TelegramClient, events
 from .settings import TGBotSettings
-from .handlers import start_cmd_handler, help_cmd_handler, list_cmd_handler, track_cmd_handler, untrack_cmd_handler
 from .client import HTTPClient
 from .notification import start_notification_server
 from functools import partial
-
+from .handlers import (start_cmd_handler,
+                       help_cmd_handler,
+                       list_cmd_handler,
+                       track_cmd_handler,
+                       untrack_cmd_handler,
+                       language_cmd_handler,
+                       set_language_callback)
 
 settings = TGBotSettings()
 bot_url = settings.bot_url
@@ -22,17 +27,20 @@ async def main():
     http_client = HTTPClient(settings.scrapper_url)
     await http_client.start()
 
+    start_handler = partial(start_cmd_handler, http_client)
+    help_handler = partial(help_cmd_handler, http_client)
     track_handler = partial(track_cmd_handler, http_client)
     untrack_handler = partial(untrack_cmd_handler, http_client)
     list_handler = partial(list_cmd_handler, http_client)
+    language_handler = partial(language_cmd_handler, http_client)
 
     bot.add_event_handler(
-        start_cmd_handler,
+        start_handler,
         events.NewMessage(pattern="/start"),
     )
 
     bot.add_event_handler(
-        help_cmd_handler,
+        help_handler,
         events.NewMessage(pattern="/help"),
     )
 
@@ -49,6 +57,16 @@ async def main():
     bot.add_event_handler(
         untrack_handler,
         events.NewMessage(pattern="/untrack"),
+    )
+
+    bot.add_event_handler(
+        language_handler,
+        events.NewMessage(pattern="/language"),
+    )
+
+    bot.add_event_handler(
+        partial(set_language_callback, http_client),
+        events.CallbackQuery(pattern=rb"set_lang:(ru|en)"),
     )
 
     runner = await start_notification_server(bot=bot, host=host, port=port)

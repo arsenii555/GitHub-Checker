@@ -4,10 +4,11 @@
 class Reader:
     """Data reader class."""
 
-    def __init__(self, users_links, links_users_hash):
+    def __init__(self, users_links, links_users_hash, users_locale):
         """Initialise the data reader."""
         self.users_links = users_links
         self.links_users_hash = links_users_hash
+        self.users_locale = users_locale
 
     def read_hash(self, link: str) -> str | None:
         """Read the hash of a link."""

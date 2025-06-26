@@ -1,6 +1,7 @@
 """Notification server functionality."""
 from aiohttp import web
 from telethon import TelegramClient
+from .translation import load_translations
 
 
 async def handle_notification(request: web.Request) -> web.Response:
@@ -11,10 +12,11 @@ async def handle_notification(request: web.Request) -> web.Response:
         bot: TelegramClient = request.app["bot"]
         user_id = data["user_id"]
         url = data["url"]
-
+        locale = data["locale"]
+        _ = load_translations(locale)
         await bot.send_message(
             entity=user_id,
-            message=f"В репозитории {url} произошло обновление"
+            message=_("В репозитории {} произошло обновление").format(url)
         )
         return web.json_response(
             {"status": "success", "message": "Notification sent"},

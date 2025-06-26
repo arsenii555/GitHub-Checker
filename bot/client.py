@@ -45,3 +45,13 @@ class HTTPClient:
         payload = {"user_id": user_id}
         response = await self._request("GET", "/list", json=payload)
         return response.get("links", []) if response else []
+
+    async def get_user_locale(self, user_id: int) -> str:
+        """Get user's preferred locale."""
+        response = await self._request("GET", f"/user/{user_id}/locale")
+        return response.get("locale", "ru_RU.UTF-8")
+
+    async def set_user_locale(self, user_id: int, locale: str) -> bool:
+        """Set user's preferred locale."""
+        response = await self._request("POST", f"/user/{user_id}/locale", json={"locale": locale})
+        return response.get("success", False)
