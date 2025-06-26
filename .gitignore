@@ -1,0 +1,17 @@
+*.session
+__pycache__/
+dist/
+
+# Translations
+*.mo
+*.pot
+
+# Sphinx documentation
+docs/_build/
+
+# Environments
+.env
+.venv
+gt_venv
+
+.idea
