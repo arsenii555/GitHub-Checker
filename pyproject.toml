@@ -1,0 +1,62 @@
+[build-system]
+requires = [
+    "setuptools",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "github-checker"
+version = "0.1.0"
+description = "A Telegram bot and scrapper for monitoring GitHub repositories."
+authors = [
+    { name = "Arsenii Evdokimov", email = "your.email@example.com" }
+]
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+keywords = ["github", "telegram", "bot", "scraper", "monitoring"]
+classifiers = [
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+# Core dependencies
+dependencies = [
+    "telethon",
+    "fastapi",
+    "requests",
+    "pydantic-settings",
+    "uvicorn",
+    "aiohttp"
+]
+
+# Optional dependencies for development
+[project.optional-dependencies]
+dev = [
+    "flake8",
+    "pydocstyle",
+    "pre-commit",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-mock",
+    "sphinx",
+    "babel",
+    "build"
+]
+
+[project.scripts]
+bot = "bot.__main__:cli_main"
+scrapper = "scrapper.__main__:cli_main"
+
+[tool.setuptools.package-dir]
+bot = "bot"
+scrapper = "scrapper"
+
+[tool.setuptools.package-data]
+"bot" = ["locale/*/*/*.mo", "locale/*/*/*.po", "bot/*.py", "bot/*/*.py",
+"docs/html/*.html",
+"docs/html/**/*",
+"../.env"]
+"scrapper" = ["../.env"]

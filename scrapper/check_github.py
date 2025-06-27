@@ -51,6 +51,7 @@ class GitHubChecker:
             if await self.check_for_updates(url):
                 users, _ = self.reader.links_users_hash[url]
                 for user_id in users:
-                    note = {"user_id": user_id, "url": url, "message": "update"}
+                    note = {"user_id": user_id, "url": url, "message": "update",
+                            "locale": self.reader.users_locale[user_id]}
                     print(note)
                     await self.client.send_notification(note)

@@ -51,3 +51,9 @@ class User(BaseModel):
         if not isinstance(other, User):
             return False
         return self.user_id == other.user_id
+
+
+class Locale(BaseModel):
+    """Model for locales."""
+
+    locale: str

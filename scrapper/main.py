@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from typing import AsyncIterator
 
 from fastapi import FastAPI
-from .models import Link, User
+from .models import Link, User, Locale
 from .settings import ScrapperSettings
 from collections import defaultdict
 from .check_github import GitHubChecker
@@ -15,9 +15,10 @@ settings = ScrapperSettings()
 
 users_links = defaultdict(set)
 links_users_hash = dict()
+users_locale = dict()
 
 
-reader = Reader(users_links, links_users_hash)
+reader = Reader(users_links, links_users_hash, users_locale)
 writer = Writer(links_users_hash)
 client = HTTPClient(settings.bot_url)
 checker = GitHubChecker(settings, reader, writer, client)
@@ -87,3 +88,20 @@ async def list_links(user: User):
     user_id = user.user_id
     links = list(users_links[user_id])
     return {"links": links}
+
+
+@app.get("/user/{user_id}/locale")
+async def get_user_locale(user_id: int):
+    """Get user locale endpoint."""
+    locale = users_locale.get(user_id, "ru")
+    return {"locale": locale}
+
+
+@app.post("/user/{user_id}/locale")
+async def set_user_locale(user_id: int, locale: Locale):
+    """Set user locale endpoint."""
+    new_locale = locale.locale
+    print(users_locale)
+    print("new_locale:", new_locale)
+    users_locale[user_id] = new_locale
+    return {"success": True}
