@@ -9,9 +9,9 @@ async def list_cmd_handler(http_client: HTTPClient, event: NewMessage.Event, ) -
     user_id = event.chat_id
     links = await http_client.list_links(user_id=user_id)
     if links:
-        resp_msg = "Отслеживаемые ссылки\n" + "\n".join([link for link in links])
+        resp_msg = "📋 Ваши отслеживаемые репозитории\n\n" + "\n".join([f"- {link}" for link in links])
     else:
-        resp_msg = "Нет отслеживаемых ссылок."
+        resp_msg = "ℹ️У вас нет отслеживаемых репозиториев"
     await event.client.send_message(
         entity=event.input_chat,
         message=resp_msg,

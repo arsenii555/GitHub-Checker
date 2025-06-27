@@ -1,5 +1,6 @@
 """GitHub checker."""
 import aiohttp
+from .utils import extract_owner_repo
 
 
 class GitHubChecker:
@@ -20,8 +21,7 @@ class GitHubChecker:
     async def get_repo_hash(self, repo_url: str) -> int | None:
         """Get current repo hash."""
         try:
-            parts = repo_url.strip("/").split("/")
-            owner, repo = parts[-2], parts[-1]
+            owner, repo = extract_owner_repo(repo_url)
 
             async with aiohttp.ClientSession() as session:
                 url = f"https://api.github.com/repos/{owner}/{repo}"

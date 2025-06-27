@@ -15,6 +15,10 @@ aiohttp = "*"
 flake8 = "*"
 pydocstyle = "*"
 pre-commit = "*"
+pytest = "*"
+pytest-asyncio = "*"
+pytest-mock = "*"
+sphinx = "*"
 
 [requires]
 python_version = "3.13"
